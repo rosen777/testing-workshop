@@ -26,6 +26,29 @@
 //   for example: `expect('some text content').toMatch('text')`)
 //
 // For your second test, it will be very similar to the first.
+import React from 'react'
+import ReactDOM from 'react-dom'
+import ItemList from '../item-list'
+
+test('renders "no items" when no items are given', () => {
+  // arrange
+  // act
+  // assert
+  const container = document.createElement('div')
+  ReactDOM.render(<ItemList items={[]} />, container)
+  expect(container.innerHTML).toMatch('no items')
+})
+
+test('renders the items are given', () => {
+  // arrange
+  // act
+  // assert
+  const container = document.createElement('div')
+  ReactDOM.render(<ItemList items={['apple', 'orange', 'pear']} />, container)
+  expect(container.innerHTML).toMatch('apple')
+  expect(container.innerHTML).toMatch('orange')
+  expect(container.innerHTML).toMatch('pear')
+})
 
 //////// Elaboration & Feedback /////////
 // When you've finished with the exercises:
@@ -36,8 +59,3 @@
 /*
 http://ws.kcd.im/?ws=Testing&e=basic%20react%20test&em=
 */
-test.skip('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
-  expect(submitted).toBe(true)
-})
-////////////////////////////////

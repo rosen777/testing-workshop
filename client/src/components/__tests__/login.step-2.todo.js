@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom'
 // import {render, Simulate} from 'react-testing-library'
 // note that til-client-test-utils is found in `client/test/til-client-test-utils`
 import Login from '../login'
+import {generate} from 'til-client-test-utils'
+import {render, Simulate} from 'react-testing-library'
 
 test('calls onSubmit with the username and password when submitted', () => {
   // Arrange
@@ -16,22 +18,22 @@ test('calls onSubmit with the username and password when submitted', () => {
   // It'll give you back an object with
   // `getByLabelText` and `getByText` functions
   // so you don't need a div anymore!
-  const div = document.createElement('div')
-  ReactDOM.render(<Login onSubmit={handleSubmit} />, div)
+  const {container, getByLabelText, getByText} = render(
+    <Login onSubmit={handleSubmit} />,
+  )
 
-  const inputs = div.querySelectorAll('input')
-  const usernameNode = inputs[0]
-  const passwordNode = inputs[1]
-  const formNode = div.querySelector('form')
-  const submitButtonNode = div.querySelector('button')
+  const usernameNode = getByLabelText('Username')
+  const passwordNode = getByLabelText('Password')
+
+  const formNode = container.querySelector('form')
+  const submitButtonNode = getByText('Submit')
 
   usernameNode.value = fakeUser.username
   passwordNode.value = fakeUser.password
 
   // Act
   // Use Simulate.submit(formNode) instead of these two lines
-  const event = new window.Event('submit')
-  formNode.dispatchEvent(event)
+  Simulate.submit(formNode)
 
   // Assert
   // no change necessary here
@@ -39,6 +41,69 @@ test('calls onSubmit with the username and password when submitted', () => {
   expect(handleSubmit).toHaveBeenCalledWith(fakeUser)
   expect(submitButtonNode.type).toBe('submit')
 })
+
+// test('calls onSubmit with the username and password when submitted', () => {
+//   // Arrange
+//   // use generate.loginForm() here
+//   const fakeUser = {username: 'chucknorris', password: '(╯°□°）╯︵ ┻━┻'}
+//   const handleSubmit = jest.fn()
+//   // use: render(<Login onSubmit={handleSubmit} />)
+//   // It'll give you back an object with
+//   // `getByLabelText` and `getByText` functions
+//   // so you don't need a div anymore!
+//   const {container, getByLabelText, getByText} = render(<Login onSubmit={handleSubmit} />)
+
+//   const usernameNode = getByLabelText('sername', {exact: false})
+//   const passwordNode = getByLabelText('assword', {exact: false})
+//   const formNode = container.querySelector('form')
+//   const submitButtonNode = container.querySelector('button')
+
+//   usernameNode.value = fakeUser.username
+//   passwordNode.value = fakeUser.password
+
+//   // Act
+//   // Use Simulate.submit(formNode) instead of these two lines
+//   Simulate.submit(formNode)
+
+//   // Assert
+//   // no change necessary here
+//   expect(handleSubmit).toHaveBeenCalledTimes(1)
+//   expect(handleSubmit).toHaveBeenCalledWith(fakeUser)
+//   expect(submitButtonNode.type).toBe('submit')
+// })
+
+// test('calls onSubmit with the username and password when submitted', () => {
+//   // Arrange
+//   // use generate.loginForm() here
+//   const fakeUser = {username: 'chucknorris', password: '(╯°□°）╯︵ ┻━┻'}
+//   const handleSubmit = jest.fn()
+//   // use: render(<Login onSubmit={handleSubmit} />)
+//   // It'll give you back an object with
+//   // `getByLabelText` and `getByText` functions
+//   // so you don't need a div anymore!
+//   const div = document.createElement('div')
+//   ReactDOM.render(<Login onSubmit={handleSubmit} />, div)
+
+//   const inputs = div.querySelectorAll('input')
+//   const usernameNode = inputs[0]
+//   const passwordNode = inputs[1]
+//   const formNode = div.querySelector('form')
+//   const submitButtonNode = div.querySelector('button')
+
+//   usernameNode.value = fakeUser.username
+//   passwordNode.value = fakeUser.password
+
+//   // Act
+//   // Use Simulate.submit(formNode) instead of these two lines
+//   const event = new window.Event('submit')
+//   formNode.dispatchEvent(event)
+
+//   // Assert
+//   // no change necessary here
+//   expect(handleSubmit).toHaveBeenCalledTimes(1)
+//   expect(handleSubmit).toHaveBeenCalledWith(fakeUser)
+//   expect(submitButtonNode.type).toBe('submit')
+// })
 
 //////// Elaboration & Feedback /////////
 // When you've finished with the exercises:
